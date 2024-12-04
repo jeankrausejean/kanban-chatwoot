@@ -1,3 +1,3 @@
-# kanban-chatwoot
+## kanban-chatwoot
 
-[Edit in StackBlitz next generation editor ⚡️](https://stackblitz.com/~/github.com/jeankrausejean/kanban-chatwoot)
+Apenas iniciando um projeto de Kanban para Chatwoot
