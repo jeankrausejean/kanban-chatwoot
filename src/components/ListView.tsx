@@ -1,14 +1,15 @@
 import React from 'react';
 import { Task } from '../types';
-import { Clock, Tag, User } from 'lucide-react';
+import { Clock, Tag, User, Trash2 } from 'lucide-react';
 import { cn } from '../utils/cn';
 
 interface ListViewProps {
   tasks: Task[];
   onTaskClick: (task: Task) => void;
+  onDeleteTask: (task: Task) => void;
 }
 
-export function ListView({ tasks, onTaskClick }: ListViewProps) {
+export function ListView({ tasks, onTaskClick, onDeleteTask }: ListViewProps) {
   const priorityColors = {
     low: 'bg-green-100 text-green-800',
     medium: 'bg-yellow-100 text-yellow-800',
@@ -19,6 +20,13 @@ export function ListView({ tasks, onTaskClick }: ListViewProps) {
     low: 'Baixa',
     medium: 'Média',
     high: 'Alta',
+  };
+
+  const handleDelete = (e: React.MouseEvent, task: Task) => {
+    e.stopPropagation();
+    if (window.confirm('Tem certeza que deseja excluir esta tarefa?')) {
+      onDeleteTask(task);
+    }
   };
 
   return (
@@ -41,6 +49,9 @@ export function ListView({ tasks, onTaskClick }: ListViewProps) {
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                 Etiquetas
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                Ações
               </th>
             </tr>
           </thead>
@@ -95,6 +106,14 @@ export function ListView({ tasks, onTaskClick }: ListViewProps) {
                       </span>
                     ))}
                   </div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <button
+                    onClick={(e) => handleDelete(e, task)}
+                    className="text-gray-400 hover:text-red-500 dark:text-gray-500 dark:hover:text-red-400 transition-colors"
+                  >
+                    <Trash2 size={16} />
+                  </button>
                 </td>
               </tr>
             ))}

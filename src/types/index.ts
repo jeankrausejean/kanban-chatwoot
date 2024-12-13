@@ -7,17 +7,9 @@ export interface Task {
   assignee?: string;
   labels: string[];
   color?: string;
-}
-
-export interface Column {
-  id: string;
-  title: string;
-  tasks: Task[];
-  color?: string;
-}
-
-export interface Board {
-  id: string;
-  title: string;
-  columns: Column[];
+  // Novos campos de contato
+  contactName?: string;
+  companyName?: string;
+  email?: string;
+  phone?: string;
 }

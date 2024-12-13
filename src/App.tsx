@@ -20,6 +20,7 @@ import { useViewMode } from './hooks/useViewMode';
 import { useFilters } from './hooks/useFilters';
 import { filterTasks } from './utils/filterTasks';
 import { Task } from './types';
+import { KanbanView } from './components/KanbanView';
 
 function App() {
   const { board, addTask, moveTask, deleteTask, addColumn, updateTask } = useBoardStore();
@@ -73,7 +74,7 @@ function App() {
     }
   };
 
-  const handleDragEnd = (event: DragEndEvent) => {
+  const handleDragEnd = () => {
     setActiveColumn(null);
   };
 
@@ -95,31 +96,19 @@ function App() {
         </div>
 
         {viewMode === 'kanban' ? (
-          <DndContext
+          <KanbanView
+            board={board}
+            filteredTasks={filteredTasks}
             onDragStart={handleDragStart}
             onDragOver={handleDragOver}
             onDragEnd={handleDragEnd}
-          >
-            <div className="flex gap-6 overflow-x-auto pb-4">
-              {board.columns.map((column) => (
-                <Column
-                  key={column.id}
-                  column={{
-                    ...column,
-                    tasks: column.tasks.filter(task => 
-                      filteredTasks.some(ft => ft.id === task.id)
-                    ),
-                  }}
-                  onAddTask={() => {
-                    setActiveColumn(column.id);
-                    setIsAddTaskModalOpen(true);
-                  }}
-                  onEditTask={(task) => handleEditTask(column.id, task)}
-                  onDeleteTask={(taskId) => handleDeleteTask(column.id, taskId)}
-                />
-              ))}
-            </div>
-          </DndContext>
+            onAddTask={(columnId) => {
+              setActiveColumn(columnId);
+              setIsAddTaskModalOpen(true);
+            }}
+            onEditTask={handleEditTask}
+            onDeleteTask={handleDeleteTask}
+          />
         ) : (
           <ListView
             tasks={filteredTasks}
@@ -129,6 +118,14 @@ function App() {
               )?.id;
               if (columnId) {
                 handleEditTask(columnId, task);
+              }
+            }}
+            onDeleteTask={(task) => {
+              const columnId = board.columns.find(col => 
+                col.tasks.some(t => t.id === task.id)
+              )?.id;
+              if (columnId) {
+                handleDeleteTask(columnId, task.id);
               }
             }}
           />
