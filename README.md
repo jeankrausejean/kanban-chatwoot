@@ -1,6 +1,6 @@
-## Apenas iniciando um projéto de Kanban para Chatwoot...
+# Apenas iniciando um projéto de Kanban para Chatwoot...
 
-# Start aplicação:
+### Start aplicação:
 
 ~~~
 
