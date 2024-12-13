@@ -9,7 +9,4 @@ npm run dev
 ~~~
 
 
-
-Link em linha:
-
-devjean.com.br
+[devjean.com.br](https://devjean.com.br/)
